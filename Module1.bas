@@ -1,5 +1,5 @@
-Attribute VB_Name = "Stock_analysis"
-Sub Stockanalysis()
+Attribute VB_Name = "Module1"
+Sub StockAnalysis()
 
     ' Define variables
     Dim ticker As String
@@ -78,7 +78,7 @@ Sub Stockanalysis()
     Range("Q3").Formula = "=MIN(K:K)"
     Range("Q3").NumberFormat = "0.00%"
     Range("Q4").Formula = "=MAX(L:L)"
-    Range("Q4").NumberFormat = "##0.0E+0"
+    Range("Q4").NumberFormat = "#,##0"
     Range("P2").Formula = _
         "=INDEX(I:I,MATCH(Q2,K:K,0))"
     Range("P3").Formula = _
@@ -86,5 +86,24 @@ Sub Stockanalysis()
     Range("P4").Formula = _
         "=INDEX(I:I,MATCH(Q4,L:L,0))"
  
+End Sub
+
+
+Sub SortTickers()
+    Range("A1").CurrentRegion.Sort Key1:=Range("A2"), _
+        Order1:=xlAscending, Header:=xlYes, MatchCase:=False, _
+        Orientation:=xlTopToBottom
+End Sub
+
+
+
+Sub RunStockAnalysisOnAllWorksheets()
+
+    ' Loop through all worksheets and run StockAnalysis macro on each one
+    For Each ws In Worksheets
+        ws.Activate
+        Call StockAnalysis
+    Next ws
+    
 End Sub
 
